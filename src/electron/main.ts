@@ -11,9 +11,8 @@ let window: BrowserWindow;
 function createWindow() {
     window = new BrowserWindow({
         show: false,
-        width: 1080,
-        minWidth: 680,
-        height: 840,
+        width: 800,
+        height: 600,
         title: app.getName(),
         webPreferences: {
             nodeIntegration: false,

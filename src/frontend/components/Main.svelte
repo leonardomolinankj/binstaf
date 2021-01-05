@@ -1,41 +1,28 @@
 <script lang="ts">
   import { onMount } from "svelte";
-
-  import { Bech32Helper, SingleNodeClient } from "@iota/iota.js";
-
-  enum NetworkType {
-    Dev = "devnet",
-    Main = "mainnet",
-  }
-
-  enum LocalStorage {
-    SavedNetwork = "selectedNetwork",
-    DevAddresses = "devnetAddresses",
-    MainAddresses = "mainnetAddresses",
-  }
-
-  enum NodeEndpoint {
-    Devnet = "https://api.lb-0.h.chrysalis-devnet.iota.cafe/",
-    Mainnet = "https://chrysalis-nodes.iota.cafe/",
-  }
-
-  interface Address {
-    address: string;
-    balance: number;
-  }
-
-  let currentNetwork: NetworkType = JSON.parse(
+  import { writable } from "svelte/store";
+  import { Bech32Helper, SingleNodeClient, Units } from "@iota/iota.js";
+  import {
+    NetworkType,
+    LocalStorage,
+    Address,
+    NodeEndpoint,
+  } from "../module/lib";
+  // Define all the stores
+  export let currentNetwork: NetworkType = JSON.parse(
     window.localStorage.getItem(LocalStorage.SavedNetwork) || '"devnet"'
   );
-  let currentStorageKey: LocalStorage.DevAddresses | LocalStorage.MainAddresses;
-  let addresses: Array<string> = [];
-  let addressObjectList: Array<Address> = [];
-  let address = "";
-  let client = {
+  export let currentStorageKey:
+    | LocalStorage.DevAddresses
+    | LocalStorage.MainAddresses;
+  export let addresses: Array<string> = [];
+  export let addressObjectList: Array<Address> = [];
+  export let address = "";
+  export let client = {
     devnet: new SingleNodeClient(NodeEndpoint.Devnet),
     mainnet: new SingleNodeClient(NodeEndpoint.Mainnet),
   };
-  let currentClient: SingleNodeClient;
+  export let currentClient: SingleNodeClient;
 
   onMount(async () => {
     addresses = JSON.parse(
@@ -111,8 +98,12 @@
 </script>
 
 <form class="" on:submit|preventDefault={onSubmit}>
-  <h1 class="">Select Your IOTA Network</h1>
-  <div class="grid justify-items-center">
+  <h1
+    class="text-center text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-[#707397] to-[#121358]"
+  >
+    Select Your IOTA Network
+  </h1>
+  <div class="px-8">
     <input
       type="radio"
       bind:group={currentNetwork}
@@ -122,7 +113,7 @@
     Devnet
 
     <input
-      class="radio radio-lg bg-[#111f3b]"
+      id="dmCheck"
       type="radio"
       bind:group={currentNetwork}
       name="network"
@@ -130,12 +121,7 @@
     />
     Mainnet
   </div>
-  <input
-    class="w-5/6 px-3 py-2 m-3"
-    type="text"
-    placeholder="Enter address"
-    bind:value={address}
-  />
+  <input class="input" placeholder="Enter address" bind:value={address} />
   <button class="btn" type="submit">Search</button>
 </form>
 <div class="">
@@ -144,7 +130,7 @@
     {#each addressObjectList as { address, balance } (address)}
       <li class="m-10">
         Address : {address}
-        <p class="text-[#1c1335]">Balance: {balance}</p>
+        <p>Balance: {balance} I</p>
         <button
           class="btn-delete float-right"
           type="button"

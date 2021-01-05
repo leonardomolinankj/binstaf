@@ -2,6 +2,7 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "target": "es2020",
+    "types": ["jest"]
   },
   "lib": ["es2020", "dom"]
 }

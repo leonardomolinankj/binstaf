@@ -1,12 +1,8 @@
 <script lang="ts">
   import Main from "./components/Main.svelte";
-  export let name;
 </script>
 
-<div>
-  <h1>Hello {name}!</h1>
-  <Main />
-</div>
+<Main />
 
 <style lang="postcss" global>
   @tailwind base;

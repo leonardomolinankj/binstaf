@@ -14,19 +14,22 @@
     "start": "npm run compile && electron .",
     "compile": "tsc",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "test": "jest src",
-    "test:watch": "yarn  test -- --watch",
+    "test": "jest",
+    "test:watch": "yarn test -- --watch",
     "bin": "yarn out:win && npm run out:mac && npm run out:linux",
     "bin:win": "rollup -c && tsc && electron-builder build --win --publish never",
     "bin:mac": "rollup -c && tsc && electron-builder build --mac --publish never",
     "bin:linux": "rollup -c && tsc && electron-builder build --linux --publish never"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "@testing-library/svelte": "^3.0.3",
     "@tsconfig/svelte": "^2.0.0",
+    "@types/jest": "^27.0.3",
     "autoprefixer": "^10.4.0",
     "babel-jest": "^27.3.1",
     "electron": "^15.2.0",
@@ -44,8 +47,9 @@
     "svelte-jester": "^2.1.5",
     "svelte-preprocess": "^4.9.8",
     "tailwindcss": "^2.2.19",
+    "ts-jest": "^27.0.7",
     "tslib": "^2.0.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.2"
   },
   "dependencies": {
     "@iota/iota.js": "^1.8.1",
@@ -53,17 +57,20 @@
     "sirv-cli": "^1.0.0"
   },
   "jest": {
-    "verbose": true,
     "transform": {
-      "^.+\\.js$": "babel-jest",
-      "^.+\\.svelte$": "svelte-jester"
+      "^.+\\.svelte$": [
+        "svelte-jester",
+        {
+          "preprocess": true
+        }
+      ],
+      "^.+\\.ts$": "ts-jest",
+      "^.+\\.js$": "babel-jest"
     },
     "moduleFileExtensions": [
       "js",
+      "ts",
       "svelte"
-    ],
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-dom/extend-expect"
     ]
   }
 }
